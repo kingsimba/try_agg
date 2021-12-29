@@ -4,7 +4,7 @@
 #include <agg2/agg_rasterizer_scanline_aa.h>
 #include <agg2/agg_renderer_scanline.h>
 #include <agg2/agg_scanline_p.h>
-#include "writepng.h"
+#include "writepng_gray.h"
 
 class SimplePath
 {
@@ -39,7 +39,7 @@ int main()
     typedef agg::renderer_base<PixelFormat> RendererBaseType;
     const int pixelSize = PixelFormat::pix_width;
     agg::rendering_buffer renderBuffer;
-    PixelFormat pixFmt;
+    PixelFormat pixFmt(renderBuffer);
     RendererBaseType rBase;
     // Allocate a 100 x 100 rgba buffer
     unsigned char* imageBuffer = new unsigned char[imageWidth * imageHeight * pixelSize];
@@ -63,7 +63,7 @@ int main()
     ras.add_path(strokePath);
 
     agg::scanline_p8 scanline;
-    const agg::rgba8 redColor(0xff, 0, 0, 0xff);
+    const agg::gray8 redColor(0x88);
     agg::render_scanlines_aa_solid(ras, scanline, rBase, redColor);
 
     // now write the image out for visualization
